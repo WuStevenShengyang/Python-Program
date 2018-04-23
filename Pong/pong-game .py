@@ -9,7 +9,14 @@ pygame.init()
 WHITE = [255,255,255]
 BLACK = [0,0,0]
 RED = [255,0,0]
+GREEN = [0,255,0]
 
+def button(text,color,size,pos):
+         button=pygame.font.Font(None,size)
+         write=button.render(text,0,color)
+         window = pygame.display.get_surface()
+         window.blit(write,pos)
+         
 def main():
                 
     w = pygame.display.set_mode((300,300))
@@ -27,8 +34,8 @@ def main():
     player_2_y = 100
     
     #Def ball
-    ball_speedx = 3
-    ball_speedy = 3
+    ball_speedx = 4
+    ball_speedy = 4
     
     
     
@@ -46,12 +53,14 @@ def main():
                     player_1_speed = -4
                 if event.key == pygame.K_s:
                     player_1_speed = 4
+                if event.key == pygame.K_SPACE:
+                    main()
 
         #Computer Move   
         if player_2_y+25 <= ball_y:
-            player_2_speed = 2
+            player_2_speed = 4
         elif player_2_y+25 > ball_y:
-            player_2_speed = -2
+            player_2_speed = -4
 
         #Draw two players and move the ball
         player_1_y = draw_player_1(player_1_speed,player_1_y)
@@ -62,18 +71,20 @@ def main():
         #Win Condition
         if ball_x >= 300:
             game = False
-            print("You win!")
+            button("You Win!", GREEN, 80, (15, ball_y))
+            pygame.display.flip()
             again()
         elif ball_x <= 0:
             game = False
-            print("Computer win!")
+            button("You Lose!", RED, 80, (15, ball_y))
+            pygame.display.flip()
             again()
             
         if ball_y >= 300 or ball_y <= 0:
             ball_speedy *= -1
             ball_speedy += random.randint(-1,1)
         
-        #Ball Bounce when hit player
+        #Ball bounces when hits player
         if ball_x >= 290 and ball_y >= player_2_y and ball_y <= player_2_y+50:
             ball_speedx *= -1
         if ball_x <= 10 and ball_y >= player_1_y and ball_y <= player_1_y+50:
