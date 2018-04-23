@@ -58,9 +58,9 @@ def main():
 
         #Computer Move   
         if player_2_y+25 <= ball_y:
-            player_2_speed = 4
+            player_2_speed = 3
         elif player_2_y+25 > ball_y:
-            player_2_speed = -4
+            player_2_speed = -3
 
         #Draw two players and move the ball
         player_1_y = draw_player_1(player_1_speed,player_1_y)
@@ -71,12 +71,12 @@ def main():
         #Win Condition
         if ball_x >= 300:
             game = False
-            button("You Win!", GREEN, 80, (15, ball_y))
+            button("You Win!", GREEN, 80, (15, 150))
             pygame.display.flip()
             again()
         elif ball_x <= 0:
             game = False
-            button("You Lose!", RED, 80, (15, ball_y))
+            button("You Lose!", RED, 80, (15, 150))
             pygame.display.flip()
             again()
             
