@@ -103,22 +103,22 @@ while game:
 
     pygame.draw.circle(w,(255,100,0),(sun_x,sun_y),15,15)
 
-    #Mars
-    mars_x=sun_x-radius_sun_mars+off_mars
-
-    if mars_x==(sun_x+radius_sun_mars):
-        forward_mars=False
-    elif mars_x==(sun_x-radius_sun_mars):
-        formatward_mars=True
-
-    if forward_mars:
-        off_mars+=1
-        mars_y=math.sqrt(radius_sun_mars**2-(mars_x-sun_x)**2)+sun_y
-    else:
-        off_mars-=1
-        mars_y=-math.sqrt(radius_sun_mars**2-(mars_x-sun_x)**2)+sun_y
-
-    pygame.draw.circle(w,(150,50,0),(mars_x,int(mars_y)),7,7)
+##    #Mars
+##    mars_x=sun_x-radius_sun_mars+off_mars
+##
+##    if mars_x==(sun_x+radius_sun_mars):
+##        forward_mars=False
+##    elif mars_x==(sun_x-radius_sun_mars):
+##        formatward_mars=True
+##
+##    if forward_mars:
+##        off_mars+=1
+##        mars_y=math.sqrt(radius_sun_mars**2-(mars_x-sun_x)**2)+sun_y
+##    else:
+##        off_mars-=1
+##        mars_y=-math.sqrt(radius_sun_mars**2-(mars_x-sun_x)**2)+sun_y
+##
+##    pygame.draw.circle(w,(150,50,0),(mars_x,int(mars_y)),7,7)
 
 
     #Mercury
