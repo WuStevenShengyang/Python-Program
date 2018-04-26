@@ -24,3 +24,11 @@ python orbit.py
 
 ### Program Preview
 ![](https://github.com/WuStevenShengyang/Side/blob/master/Source/orbitpicture.PNG)
+
+
+## Stopwatch
+```
+python TimerMain.py
+```
+### Program Preview
+![](https://github.com/WuStevenShengyang/Side/blob/master/Source/timerpic.PNG)
