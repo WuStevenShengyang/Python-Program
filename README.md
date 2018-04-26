@@ -2,7 +2,7 @@
 
 ## Pong Game
 ```
-python ping-game.py
+python pong-game.py
 ```
 ### Game Preview
 ![](https://github.com/WuStevenShengyang/Side/blob/master/Source/pongpicture.PNG)
