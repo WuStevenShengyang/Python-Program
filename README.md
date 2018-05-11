@@ -32,3 +32,10 @@ python TimerMain.py
 ```
 ### Program Preview
 ![](https://github.com/WuStevenShengyang/Side/blob/master/Source/timerpic.PNG)
+
+
+## Google Image Finder
+```
+python spider.py
+```
+Enter anything you want to search. The program will grab related images into a folder called 'Result'
