@@ -24,67 +24,145 @@ def draw_snake(snake_list):
 snake_L=[]
 length_s=1
 
-#def snake_list()
+def AI_move(snake_list, apple_x, apple_y):
+
+    adjust = False
+
+    x = snake_list[-1][0]
+    y = snake_list[-1][1]
+
+    tail = snake_list[0]
+
+    x_apply = 0
+    y_apply = 0
+
+    #Find the nearest path towards the apple.
+    if x < apple_x:
+        x_apply = 10
+    elif x > apple_x:
+        x_apply = -10
+
+    if x == apple_x:
+        if y < apple_y:
+            y_apply = 10
+        elif y> apple_y:
+            y_apply = -10
+
+    #Predict next position
+    for i in snake_list:
+        if x + x_apply == i[0] and y + y_apply == i[1]:
+            adjust = True
+
+    if adjust:
+
+        if x + x_apply == snake_list[-2][0] and y + y_apply == snake_list[-2][1] and x_apply == 0:
+            x_apply = 10
+            y_apply = 0
+            print(1)
+
+        elif x + x_apply == snake_list[-2][0] and y + y_apply == snake_list[-2][1] and y_apply == 0:
+            x_apply = 0
+            y_apply = 10
+            print(2)
+
+        elif x < tail[0] and x_apply == 0:
+            x_apply = 10
+            y_apply = 0
+            print(3)
+        elif x > tail[0] and x_apply == 0:
+            x_apply = -10
+            y_apply = 0
+            print(4)
+        elif y < tail[1] and y_apply == 0:
+            x_apply = 0
+            y_apply = 10
+            print(5)
+        elif y > tail[1] and y_apply == 0:
+            x_apply = 0
+            y_apply = -10
+            print(6)
+
+    return x_apply, y_apply
+
+
+
+
+
+
+
+
+
+
+
 while game:
+
     #Two main sprites, apple and snake
     apple=pygame.Rect(apple_x,apple_y,10,10)
     player=pygame.Rect(x,y,10,10)
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             game=False
-        if event.type==pygame.KEYDOWN:
-            if event.key==pygame.K_RIGHT:
-                if length_s>1:
-                    if x_apply==0:
-                        x_apply=10
-                        y_apply=0
-                else:
-                    x_apply=10
-                    y_apply=0
-            elif event.key==pygame.K_LEFT:
-                if length_s>1:
-                    if x_apply==0:
-                        x_apply=-10
-                        y_apply=0
-                else:
-                    x_apply=-10
-                    y_apply=0
-            elif event.key==pygame.K_UP:
-                if length_s>1:
-                    if y_apply==0:
-                        y_apply=-10
-                        x_apply=0
-                else:
-                    y_apply=-10
-                    x_apply=0
-            elif event.key==pygame.K_DOWN:
-                if length_s>1:
-                    if y_apply==0:
-                        y_apply=10
-                        x_apply=0
-                else:
-                    y_apply=10
-                    x_apply=0
-    
-    
-    x+=x_apply
-    y+=y_apply
+        # if event.type==pygame.KEYDOWN:
+        #     if event.key==pygame.K_RIGHT:
+        #         if length_s>1:
+        #             if x_apply==0:
+        #                 x_apply=10
+        #                 y_apply=0
+        #         else:
+        #             x_apply=10
+        #             y_apply=0
+        #     elif event.key==pygame.K_LEFT:
+        #         if length_s>1:
+        #             if x_apply==0:
+        #                 x_apply=-10
+        #                 y_apply=0
+        #         else:
+        #             x_apply=-10
+        #             y_apply=0
+        #     elif event.key==pygame.K_UP:
+        #         if length_s>1:
+        #             if y_apply==0:
+        #                 y_apply=-10
+        #                 x_apply=0
+        #         else:
+        #             y_apply=-10
+        #             x_apply=0
+        #     elif event.key==pygame.K_DOWN:
+        #         if length_s>1:
+        #             if y_apply==0:
+        #                 y_apply=10
+        #                 x_apply=0
+        #         else:
+        #             y_apply=10
+        #             x_apply=0
+        #
+
+
     pygame.draw.rect(w,(0,0,255),apple)
     #Add snake position to the snake variable.
     snake_Head=[]
     snake_Head.append(x)
     snake_Head.append(y)
     snake_L.append(snake_Head)
-    
+
+
+
     #Draw snake
     if len(snake_L) > length_s:
         del snake_L[0]
-        
+
     draw_snake(snake_L)
+
+    #AI
+    x_apply, y_apply = AI_move(snake_L, apple_x, apple_y)
+    x+=x_apply
+    y+=y_apply
+
     #Self collide
-    if snake_L[0] in snake_L[1:-1]:
+    if snake_L[-1] in snake_L[1:-1]:
         print("GameOver")
         game=False
+
     if apple_x==x and apple_y==y:
         #Add 1 to the length after eating an apple
         apple_x=int(round(random.randint(0,490)/10.0)*10.0)
@@ -101,4 +179,4 @@ while game:
         y+=500
     pygame.display.flip()
     w.fill((255,255,255))
-    time.tick(15)
+    time.tick(30)
