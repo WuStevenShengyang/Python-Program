@@ -1,5 +1,6 @@
 import pygame
 import random
+
 pygame.init()
 w=pygame.display.set_mode((500,500))
 w.fill((255,255,255))
