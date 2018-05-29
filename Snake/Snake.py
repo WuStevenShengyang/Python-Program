@@ -34,8 +34,6 @@ def button(text,color,size,pos):
          
 def AI_move(snake_list, apple_x, apple_y, x_shift, y_shift):
 
-    adjust = False
-
     random_speed = [-10, 10]
     
     x = snake_list[-1][0]
@@ -58,13 +56,8 @@ def AI_move(snake_list, apple_x, apple_y, x_shift, y_shift):
         elif y> apple_y:
             y_apply = -10
             
-    #Predict next position
-    
-    for i in snake_list:
-        if x + x_apply == i[0] and y + y_apply == i[1]:
-            adjust = True
 
-    if adjust:
+
 #         if (x + x_apply) == snake_list[-2][0]:
 #             x_apply = 0
 #             if y < tail[1]:
@@ -84,50 +77,62 @@ def AI_move(snake_list, apple_x, apple_y, x_shift, y_shift):
 #                 x_apply = -10
 #             else:
 #                 x_apply = random.choice(random_speed)
-#             print(1)
-            
-        if x > tail[0] and x_apply == 0:
-            y_apply = 0
-            x_apply = -10
-            print(2)
-            
-        elif x < tail[0] and x_apply == 0:
-            y_apply = 0
-            x_apply = 10
-            print(3)
-            
-        elif y > tail[1] and y_apply == 0:
-            x_apply = 0
-            y_apply = -10
-            print(4)
-            
-        elif y < tail[1] and y_apply == 0:
-            x_apply = 0
-            y_apply = 10
-            print(5)
-    
-    if (-x_apply) == x_shift:
+        #             print(1)
+    if (-x_apply) == x_shift and x_apply != 0:
+
         x_apply = 0
-        y_apply = random.choice(random_speed)
-    
-    elif (-y_apply) == y_shift:
+
+        if y < apple_y:
+            y_apply = 10
+        elif y > apple_y:
+            y_apply = -10
+        else:
+            y_apply = random.choice(random_speed)
+
+    elif (-y_apply) == y_shift and y_apply != 0:
         y_apply = 0
-        x_apply = random.choice(random_speed)
+
+        if x < apple_x:
+            x_apply = 10
+        elif x > apple_x:
+            x_apply = -10
+        else:
+            x_apply = random.choice(random_speed)
+
+
+    # Predict next position
+
+    for i in snake_list:
+        if x + x_apply == i[0] and y + y_apply == i[1]:
+
+            if x > tail[0] and x_apply == 0:
+                y_apply = 0
+                x_apply = -10
+                print(2)
+
+            elif x < tail[0] and x_apply == 0:
+                y_apply = 0
+                x_apply = 10
+                print(3)
+
+            elif y > tail[1] and y_apply == 0:
+                x_apply = 0
+                y_apply = -10
+                print(4)
+
+            elif y < tail[1] and y_apply == 0:
+                x_apply = 0
+                y_apply = 10
+                print(5)
+
+ ###################################
+
             
             
     return x_apply, y_apply
 
-
-
-
-
-
-
-
-
-
-
 while game:
+
 
     #Two main sprites, apple and snake
     apple=pygame.Rect(apple_x,apple_y,10,10)
@@ -200,8 +205,13 @@ while game:
     if apple_x==x and apple_y==y:
         #Add 1 to the length after eating an apple
         apple_x=int(round(random.randint(0,490)/10.0)*10.0)
-        #apple_y=int(round(random.randint(0,490)/10.0)*10.0)
-        length_s+=1
+        apple_y=int(round(random.randint(0,490)/10.0)*10.0)
+
+        while (apple_x, apple_y) in snake_L:
+            apple_x = int(round(random.randint(0, 490) / 10.0) * 10.0)
+            apple_y = int(round(random.randint(0, 490) / 10.0) * 10.0)
+
+        length_s+=3
         score += 1
     
     #Out of bond.
@@ -216,4 +226,4 @@ while game:
     button(str(score), (0, 0, 0), 30, (0, 0))
     pygame.display.flip()
     w.fill((255,255,255))
-    time.tick(50)
+    time.tick(200)
