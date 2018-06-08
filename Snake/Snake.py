@@ -88,6 +88,10 @@ class Snake(pygame.sprite.Sprite):
             self.score += 1
             self.snake_length += 1
             self.generate_food()
+            
+            return True
+        else:
+            return False
 
 ### Self Issues #####################################       
     def increase_length(self):
@@ -104,57 +108,47 @@ class Snake(pygame.sprite.Sprite):
                 return True
             
 ### AI Functions (Under construction) ##############################
-    def AI(self):
-        x_speed = 0
-        y_speed = 0
-
-        random_speed = [10, -10]
-        tail = self.snake_list[0]
-        
-        move_towards = True
-        
-        #Calculate path towards apple
+    def path_finder(self):
+        found = False
         dx, dy = self.apple_x - self.snake_head.x, self.apple_y - self.snake_head.y
         dist = math.hypot(dx, dy)
+        
+        mock_snake = pygame.Rect(self.snake_head.x, self.snake_head.y, 10, 10)
         
         try:
             dx /= dist
         except Exception:
-            dx = 0
-        
+            dx = 0  
         try:
             dy /= dist                
         except Exception:
-            dy = 0  
-        #Move towards apple
-        if move_towards:
-            if dx > 0:
-                x_speed = 10
-            elif dx < 0:
-                x_speed = -10
-            else:
-                x_speed = 0
+            dy = 0
+        while not found:
+            if mock_snake.x == self.apple_x and mock_snake.y == self.apple_y:
+                found = True
                 
-        if dx == 0:   
-            if dy > 0:
-                y_speed = 10
-            elif dy < 0:
-                y_speed = -10
             else:
-                y_speed = 0
-        
-        if (-x_speed) == self.x_speed and x_speed != 0:
-            x_speed = 0
-            y_speed = random.choice(random_speed)
-        elif (-y_speed) == self.y_speed and y_speed != 0:
-            y_speed = 0
-            x_speed = random.choice(random_speed)
+                print(self.path)
+                print('--------------------------')
+                print(mock_snake.x, mock_snake.y)
+                print(self.apple_x, self.apple_y)
+                
+                if mock_snake.x != self.apple_x:
+                    if dx > 0:
+                        self.path.append(1)
+                        mock_snake.x += 10
+                    elif dx < 0:
+                        self.path.append(2)
+                        mock_snake.x += -10
+                else:
+                    if dy > 0:
+                        self.path.append(3)
+                        mock_snake.y += 10
+                    elif dy < 0:
+                        self.path.append(4)
+                        mock_snake.y += -10
+
             
-        #print('dx', dx, ' dy',dy)
-        return x_speed, y_speed
-                
-    def path_finder(self):
-        self.path = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3]
      
 def main():
 
@@ -171,7 +165,7 @@ def main():
     
     snake = Snake(width, height)
     snake.generate_food()
-   
+    snake.path_finder()
     game = True
     c = pygame.time.Clock()
     
@@ -194,15 +188,15 @@ def main():
                     y_speed = 0
 
 #       Determine speed with AI
-        snake.path_finder()
         snake.path_move_snake()
-        
 #       Draw Snake
         snake.draw_snake()
 
 #       Utilize apple
         snake.draw_food()
-        snake.eat_food()
+        if snake.eat_food():
+            snake.path_finder()
+            
 
 #       Check self collide
 
@@ -214,7 +208,7 @@ def main():
         
         pygame.display.flip()
         w.fill(WHITE)
-        c.tick(10)
+        c.tick(30)
     
    
 if __name__ == "__main__":
