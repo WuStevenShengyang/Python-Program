@@ -38,4 +38,5 @@ python TimerMain.py
 ```
 python spider.py
 ```
-Enter anything you want to search. The program will grab related images into a folder called 'Result'
+Enter anything you want to search. The program will grab related images into a 'Result' folder.
+ 
