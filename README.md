@@ -9,6 +9,9 @@ python pong-game.py
 
 
 ## Tank Game
+Based on those series of videos: 
+
+https://www.youtube.com/watch?v=K5F-aGDIYaM&list=PL6gx4Cwl9DGAjkwJocj7vlc_mFU-4wXJq
 ```
 python Main_Game.py
 ```
